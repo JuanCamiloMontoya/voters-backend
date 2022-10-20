@@ -4,8 +4,8 @@ import { JwtAuthGuard } from "src/@common/guards/jwt-auth.guard"
 import { RolesGuard } from "src/@common/guards/roles.guard"
 import { ERole } from "src/entities/@enums/role.enum"
 import { UsersService } from "./users.service"
-import { CreateRecorderDTO } from "./dto/createRecorder.dto"
-import { UpdatePasswordDTO } from "./dto/updatePassword.dto"
+import { CreateRecorderDTO } from "./dto/create-recorder.dto"
+import { UpdatePasswordDTO } from "./dto/update-password.dto"
 
 @Controller('users')
 export class UsersController {

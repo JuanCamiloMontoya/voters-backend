@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, } from "typeorm"
-import { PersonOccupation } from "./personOccupation.entity"
+import { PersonOccupation } from "./person-occupation.entity"
 
 @Entity('occupation', { schema: 'voters' })
 export class Occupation {

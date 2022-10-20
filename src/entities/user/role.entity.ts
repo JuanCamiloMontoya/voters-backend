@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, } from "typeorm"
 import { ERole } from "../@enums/role.enum"
-import { RolePermission } from "./rolePermission.entity"
-import { UserRole } from "./userRole.entity"
+import { RolePermission } from "./role-permission.entity"
+import { UserRole } from "./user-role.entity"
 
 @Entity('role', { schema: 'user' })
 export class Role {

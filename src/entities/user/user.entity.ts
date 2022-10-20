@@ -11,7 +11,7 @@ import {
 } from "typeorm"
 import { EState } from "../@enums/state.enum"
 import { Person } from "../voters/person.entity"
-import { UserRole } from "./userRole.entity"
+import { UserRole } from "./user-role.entity"
 import { Exclude } from "class-transformer"
 
 @Entity('user', { schema: 'user' })

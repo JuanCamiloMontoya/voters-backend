@@ -20,4 +20,5 @@ export class CreateRecorderDTO {
   @Length(7, 13)
   @IsNumberString()
   phone: string
+
 }

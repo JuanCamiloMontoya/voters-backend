@@ -13,7 +13,7 @@ import {
 import { Subdivision } from "../geographic/subdivision.entity"
 import { User } from "../user/user.entity"
 import { Occupation } from "./occupation.entity"
-import { PersonOccupation } from "./personOccupation.entity"
+import { PersonOccupation } from "./person-occupation.entity"
 
 @Entity('person', { schema: 'voters' })
 @Unique(['document'])

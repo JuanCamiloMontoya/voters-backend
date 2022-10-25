@@ -25,11 +25,11 @@ export class UsersService {
     const queryRunner = this.dataSource.createQueryRunner()
     await queryRunner.connect()
     await queryRunner.startTransaction()
-    try {
 
+    try {
       const { email, firstname, lastname, document } = body
 
-      const existDocument = await queryRunner.manager.findOne(Person, {})
+      const existDocument = await queryRunner.manager.findOne(Person, { where: { document } })
       if (existDocument)
         throw new HttpException('El número de documento ya existe!', HttpStatus.CONFLICT)
 
@@ -46,18 +46,22 @@ export class UsersService {
       await queryRunner.manager.save(UserRole, { role: { id: 2 }, user: { id: newRecorder.id } })
 
       await queryRunner.commitTransaction()
-    } catch (err) {
+    } catch (error) {
       await queryRunner.rollbackTransaction()
+      throw new HttpException(
+        error.response?.toString() || error.toString(),
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      )
     } finally {
       await queryRunner.release()
     }
 
     delete newRecorder.password
-    return { success: true, detail: newRecorder }
+    return newRecorder
   }
 
   async getAllUsers() {
-    return await this.userRepository.find()
+    return await this.userRepository.find({ select: ['id', "email", "state"] })
   }
 
   async getUserByEmail(email: string) {

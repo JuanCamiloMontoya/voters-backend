@@ -9,8 +9,7 @@ import sendgridConfig from "./@common/config/sendgrid.config"
 import { UsersModule } from "./modules/users/users.module"
 import { VotersModule } from './modules/voters/voters.module'
 import { AuthModule } from "./modules/auth/auth.module"
-import { AppController } from "./app.controller"
-import { AppService } from "./app.service"
+import { OccupationModule } from './modules/occupation/occupation.module'
 
 @Module({
   imports: [
@@ -27,9 +26,8 @@ import { AppService } from "./app.service"
     UsersModule,
     AuthModule,
     CommonModule,
-    VotersModule
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+    VotersModule,
+    OccupationModule
+  ]
 })
 export class AppModule { }

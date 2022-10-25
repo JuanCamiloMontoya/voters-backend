@@ -8,7 +8,11 @@ import { SendgridService } from "src/@common/services/sendgrid/sendgrid.service"
 import { User } from "src/entities/user/user.entity"
 import { UsersService } from "../users/users.service"
 import { LoginDTO } from "./dto/login.dto"
-import { PasswordResetRequestDTO, ResetPasswordDTO, VerifyEmailDTO } from "./dto/password-reset.dto"
+import {
+  PasswordResetRequestDTO,
+  ResetPasswordDTO,
+  VerifyEmailDTO
+} from "./dto/password-reset.dto"
 
 @Injectable()
 export class AuthService {
@@ -98,7 +102,7 @@ export class AuthService {
 
       await this.userRepository.update({ email }, { passwordResetCode: encrytedCode })
 
-      return { success: true, code: passwordResetCode }
+      return { code: passwordResetCode }
     } catch (error) {
       throw new HttpException(
         error?.response?.toString() || error?.toString(),

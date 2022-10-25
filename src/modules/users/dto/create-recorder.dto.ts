@@ -1,24 +1,40 @@
+import { ApiProperty } from "@nestjs/swagger"
 import { IsEmail, IsNumberString, IsString, Length } from "class-validator"
 
 export class CreateRecorderDTO {
 
   @IsEmail()
-  email: string
+  @ApiProperty({
+    example: 'pepe@gmail.com'
+  })
+  readonly email: string
 
   @IsString()
   @Length(3, 30)
-  firstname: string
+  @ApiProperty({
+    example: 'Pepe'
+  })
+  readonly firstname: string
 
   @IsString()
   @Length(3, 30)
-  lastname: string
+  @ApiProperty({
+    example: 'Perez'
+  })
+  readonly lastname: string
 
   @IsNumberString()
   @Length(7, 20)
-  document: string
+  @ApiProperty({
+    example: '1023369852'
+  })
+  readonly document: string
 
   @Length(7, 13)
   @IsNumberString()
-  phone: string
+  @ApiProperty({
+    example: '3124567890'
+  })
+  readonly phone: string
 
 }

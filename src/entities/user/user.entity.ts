@@ -3,8 +3,6 @@ import {
   Column,
   PrimaryGeneratedColumn,
   Unique,
-  UpdateDateColumn,
-  CreateDateColumn,
   OneToOne,
   JoinColumn,
   OneToMany
@@ -13,18 +11,22 @@ import { EState } from "../@enums/state.enum"
 import { Person } from "../voters/person.entity"
 import { UserRole } from "./user-role.entity"
 import { Exclude } from "class-transformer"
+import { ApiProperty } from '@nestjs/swagger'
+import { AbstractEntity } from "../@common/abstract.entity"
 
 @Entity('user', { schema: 'user' })
-@Unique(['email'])
-export class User {
+export class User extends AbstractEntity {
 
   @PrimaryGeneratedColumn()
+  @ApiProperty()
   id: number
 
   @Column('character varying', { length: 200, nullable: true, unique: true })
+  @ApiProperty()
   email: string
 
   @Column('character varying', { length: 250, nullable: true })
+  @ApiProperty()
   @Exclude()
   password: string
 
@@ -37,13 +39,8 @@ export class User {
   passwordResetExpiration: Date
 
   @Column('enum', { enum: EState, default: EState.Active })
+  @ApiProperty()
   state: EState
-
-  @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
-  createdAt: Date
-
-  @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
-  updatedAt: Date
 
   @OneToOne(
     type => Person,

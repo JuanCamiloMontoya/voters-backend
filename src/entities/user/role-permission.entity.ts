@@ -20,12 +20,6 @@ export class RolePermission {
   @Column('enum', { enum: EState, default: EState.Active })
   state: EState
 
-  @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
-  createdAt: Date
-
-  @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
-  updatedAt: Date
-
   @ManyToOne(() => Permission, (permission) => permission.roles)
   @JoinColumn({ name: 'fk_permission' })
   permission: Permission

@@ -3,12 +3,12 @@ import { DataSource, Repository } from "typeorm"
 import { InjectRepository } from "@nestjs/typeorm"
 import * as bcrypt from "bcrypt"
 import { Person } from "src/entities/voters/person.entity"
-import { User } from "src/entities/user/user.entity"
-import { UserRole } from "src/entities/user/user-role.entity"
+import { User } from "src/entities/users/user.entity"
+import { UserRole } from "src/entities/users/user-role.entity"
 import { CreateRecorderDTO } from "./dto/create-recorder.dto"
 import { UpdatePasswordDTO } from "./dto/update-password.dto"
 import { AuthService } from "../auth/auth.service"
-import { Role } from "src/entities/user/role.entity"
+import { Role } from "src/entities/users/role.entity"
 @Injectable()
 export class UsersService {
   constructor(

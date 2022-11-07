@@ -10,7 +10,7 @@ import { EState } from "../@enums/state.enum"
 import { Role } from "./role.entity"
 import { User } from "./user.entity"
 
-@Entity('user_role', { schema: 'user' })
+@Entity('user_role', { schema: 'users' })
 export class UserRole {
 
   @PrimaryGeneratedColumn({ type: 'bigint' })

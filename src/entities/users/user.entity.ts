@@ -14,7 +14,7 @@ import { Exclude } from "class-transformer"
 import { ApiProperty } from '@nestjs/swagger'
 import { AbstractEntity } from "../@common/abstract.entity"
 
-@Entity('user', { schema: 'user' })
+@Entity('user', { schema: 'users' })
 export class User extends AbstractEntity {
 
   @PrimaryGeneratedColumn()

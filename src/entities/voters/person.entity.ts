@@ -11,7 +11,7 @@ import {
 } from "typeorm"
 import { AbstractEntity } from "../@common/abstract.entity"
 import { Subdivision } from "../geographic/subdivision.entity"
-import { User } from "../user/user.entity"
+import { User } from "../users/user.entity"
 import { Occupation } from "./occupation.entity"
 import { PersonOccupation } from "./person-occupation.entity"
 

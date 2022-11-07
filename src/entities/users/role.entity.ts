@@ -3,7 +3,7 @@ import { ERole } from "../@enums/role.enum"
 import { RolePermission } from "./role-permission.entity"
 import { UserRole } from "./user-role.entity"
 
-@Entity('role', { schema: 'user' })
+@Entity('role', { schema: 'users' })
 export class Role {
 
   @PrimaryGeneratedColumn({ type: 'smallint' })

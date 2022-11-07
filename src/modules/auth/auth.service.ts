@@ -5,7 +5,7 @@ import { Repository } from "typeorm"
 import * as bcrypt from "bcrypt"
 import { Template } from "src/@common/services/sendgrid/template.constants"
 import { SendgridService } from "src/@common/services/sendgrid/sendgrid.service"
-import { User } from "src/entities/user/user.entity"
+import { User } from "src/entities/users/user.entity"
 import { UsersService } from "../users/users.service"
 import { LoginDTO } from "./dto/login.dto"
 import {

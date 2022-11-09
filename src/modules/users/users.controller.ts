@@ -15,7 +15,7 @@ import { UsersService } from "./users.service"
 import { User } from "src/entities/users/user.entity"
 import { CreateRecorderDTO } from "./dto/create-recorder.dto"
 import { UpdatePasswordDTO } from "./dto/update-password.dto"
-import { Error401Options, Error500Options } from "src/@common/models/objects/error.objects"
+import { Error401Options, Error500Options } from "src/@common/models/objects/error.object"
 import { GetUserResponse } from "./response/get-users.response"
 
 @Controller('users')

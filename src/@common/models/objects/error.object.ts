@@ -1,4 +1,4 @@
-import { Error400Response, Error500Response } from "../types/error.types"
+import { Error400Response, Error500Response } from "../types/error.type"
 
 export const Error500Options = {
   type: Error500Response,

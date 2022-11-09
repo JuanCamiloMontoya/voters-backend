@@ -16,8 +16,8 @@ import {
   PasswordResetRequestDTO,
   VerifyEmailDTO
 } from "./dto/password-reset.dto"
-import { Error400Response } from "src/@common/models/types/error.types"
-import { Error500Options } from "src/@common/models/objects/error.objects"
+import { Error400Response } from "src/@common/models/types/error.type"
+import { Error500Options } from "src/@common/models/objects/error.object"
 import {
   PasswordResetRequestResponse,
   ResetPasswordResponse,

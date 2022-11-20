@@ -1,6 +1,7 @@
 import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common"
 import { DataSource, Repository } from "typeorm"
 import { InjectRepository } from "@nestjs/typeorm"
+import { sampleSize } from 'lodash'
 import * as bcrypt from "bcrypt"
 import { Person } from "src/entities/voters/person.entity"
 import { User } from "src/entities/users/user.entity"
@@ -9,13 +10,13 @@ import { CreateRecorderDTO } from "./dto/create-recorder.dto"
 import { UpdatePasswordDTO } from "./dto/update-password.dto"
 import { AuthService } from "../auth/auth.service"
 import { Role } from "src/entities/users/role.entity"
+
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Role) private roleRepository: Repository<Role>,
-    @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService,
+    @Inject(forwardRef(() => AuthService)) private readonly authService: AuthService,
     private dataSource: DataSource
   ) { }
 
@@ -27,23 +28,28 @@ export class UsersService {
     await queryRunner.startTransaction()
 
     try {
-      const { email, firstname, lastname, document } = body
+      const { email, document } = body
 
-      const existDocument = await queryRunner.manager.findOne(Person, { where: { document } })
+      const { manager } = queryRunner
+
+      const existDocument = await manager.findOne(Person, { where: { document } })
       if (existDocument)
         throw new HttpException('El número de documento ya existe!', HttpStatus.CONFLICT)
 
-      const existEmail = await queryRunner.manager.findOne(User, { where: { email } })
+      const existEmail = await manager.findOne(User, { where: { email } })
       if (existEmail)
         throw new HttpException('El correo ya existe!', HttpStatus.CONFLICT)
 
 
-      const newPerson = await queryRunner.manager.save(Person, body)
+      const newPerson = await manager.save(Person, body)
 
-      let password = `${firstname.slice(0, 3)}_${lastname.slice(0, 3)}_${document.slice(0, 3)}`
+      let password = sampleSize(
+        'ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789!@#$%\-+&_*', 10
+      ).join('')
+
       password = await bcrypt.hash(password, 10)
-      newRecorder = await queryRunner.manager.save(User, { email, password, person: newPerson })
-      await queryRunner.manager.save(UserRole, { role: { id: 2 }, user: { id: newRecorder.id } })
+      newRecorder = await manager.save(User, { email, password, person: newPerson })
+      await manager.save(UserRole, { role: { id: 2 }, user: { id: newRecorder.id } })
 
       await queryRunner.commitTransaction()
     } catch (error) {

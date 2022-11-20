@@ -12,7 +12,8 @@ export class LoginDTO {
 
   @Length(8, 30)
   @ApiProperty({
-    example: "as5Ñs1T81w", minLength: 8
+    example: "as5Ñs1T81w",
+    minLength: 8
   })
   readonly password: string
 }

@@ -121,6 +121,12 @@ export class AuthService {
       })
       const isMatch = user && await bcrypt.compare(code, user.passwordResetCode)
 
+      if (new Date() > user.passwordResetExpiration)
+        throw new HttpException(
+          'Ya se excedió el tiempo de recuperación de contraseña! Haz lo solicitud de nuevo.',
+          HttpStatus.NOT_ACCEPTABLE
+        )
+
       if (!isMatch)
         throw new HttpException('Los datos suministrados son incorrectos!', HttpStatus.NOT_ACCEPTABLE)
 

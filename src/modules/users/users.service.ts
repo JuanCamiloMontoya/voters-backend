@@ -14,13 +14,16 @@ import { Role } from "src/entities/users/role.entity"
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Role) private roleRepository: Repository<Role>,
-    @Inject(forwardRef(() => AuthService)) private readonly authService: AuthService,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
+    @InjectRepository(Role)
+    private roleRepository: Repository<Role>,
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
     private dataSource: DataSource
   ) { }
 
-  async createRecorder(body: CreateRecorderDTO) {
+  async createRecorder(recorder: CreateRecorderDTO) {
     let newRecorder: User
 
     const queryRunner = this.dataSource.createQueryRunner()
@@ -28,7 +31,7 @@ export class UsersService {
     await queryRunner.startTransaction()
 
     try {
-      const { email, document } = body
+      const { email, document } = recorder
 
       const { manager } = queryRunner
 
@@ -41,7 +44,7 @@ export class UsersService {
         throw new HttpException('El correo ya existe!', HttpStatus.CONFLICT)
 
 
-      const newPerson = await manager.save(Person, body)
+      const newPerson = await manager.save(Person, recorder)
 
       let password = sampleSize(
         'ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789!@#$%\-+&_*', 10

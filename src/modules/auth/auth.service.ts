@@ -17,7 +17,8 @@ import {
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
     private readonly sengridService: SendgridService

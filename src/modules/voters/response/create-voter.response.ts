@@ -8,3 +8,8 @@ export class CreateVoterResponse extends CreateVoterDTO {
   })
   id: number
 }
+
+export class CheckDocumentResponse {
+  @ApiProperty()
+  exists: boolean
+}

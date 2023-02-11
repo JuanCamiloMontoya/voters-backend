@@ -15,7 +15,7 @@ export class Subdivision {
   @Column('enum', { enum: ESubdivision, default: ESubdivision.RuralSettlement })
   type: ESubdivision
 
-  @ManyToOne(() => Division, division => division.subdvision, { nullable: false })
+  @ManyToOne(() => Division, division => division.subdivision, { nullable: false })
   @JoinColumn({ name: 'fk_division' })
   division: Division
 

@@ -1,38 +1,77 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsEmail, IsNumberString, IsOptional, IsString } from "class-validator"
+import { IsEmail, IsNumberString, IsOptional, IsString, Length, MaxLength } from "class-validator"
 
 export class CreateVoterDTO {
 
   @IsString()
+  @Length(3, 30)
   @ApiProperty({
-    example: 'Pepe Joaquin'
+    example: 'Pepe',
+    minLength: 3,
+    maxLength: 30
   })
-  firstname: string
+  readonly firstname: string
 
   @IsString()
+  @Length(3, 30)
   @ApiProperty({
-    example: 'Perez Gomez'
+    example: 'Perez',
+    minLength: 3,
+    maxLength: 30
   })
-  lastname: string
-
-  @IsString()
-  @ApiProperty({
-    example: '3133169875'
-  })
-  phone: string
+  readonly lastname: string
 
   @IsNumberString()
-  @IsOptional()
-  @ApiPropertyOptional({
-    example: '1112504963'
+  @Length(6, 10)
+  @ApiProperty({
+    description: "Cadena numérica",
+    example: '1023369852',
+    minLength: 7,
+    maxLength: 10
   })
-  document?: string
+  readonly document: string
+
+  @Length(10, 10)
+  @IsNumberString()
+  @ApiProperty({
+    description: "Cadena numérica",
+    example: '3124567890',
+    minLength: 7,
+    maxLength: 12
+  })
+  readonly phone: string
 
   @IsEmail()
   @IsOptional()
+  @MaxLength(50)
   @ApiPropertyOptional({
-    example: 'pepe@gmail.com'
+    example: 'pepe@gmail.com',
+    maxLength: 50
   })
-  email?: string
+  readonly email?: string
+
+  @IsOptional()
+  @ApiPropertyOptional({
+    example: 45,
+    description: 'Id de la subdivision (Barrio o vereda)'
+  })
+  readonly subdivisionId?: number
+
+  @IsOptional()
+  @ApiPropertyOptional({
+    example: 45,
+    description: `Array de ID's de las ocupasiones`,
+    isArray: true
+  })
+  readonly occupations?: number[]
+
+
+  @IsOptional()
+  @ApiPropertyOptional({
+    example: 45,
+    description: `Array de ID's de los hobbies`,
+    isArray: true
+  })
+  readonly hobbies?: number[]
 
 }

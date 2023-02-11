@@ -14,8 +14,8 @@ export class VerifyEmailDTO extends PasswordResetRequestDTO {
   @IsNumberString()
   @Length(6, 6)
   @ApiProperty({
-    example: "456987",
     description: "Cadena numérica",
+    example: "456987",
     minLength: 6,
     maxLength: 6
   })

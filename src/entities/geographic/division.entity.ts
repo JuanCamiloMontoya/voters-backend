@@ -20,6 +20,6 @@ export class Division {
   city: City
 
   @OneToMany(() => Subdivision, subdivision => subdivision.division)
-  subdvision: Subdivision[]
+  subdivision: Subdivision[]
 
 }

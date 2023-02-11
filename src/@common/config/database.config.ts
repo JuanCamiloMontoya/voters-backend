@@ -10,5 +10,5 @@ export default registerAs('database', () => ({
   synchronize: true,
   logging: false,
   entities: ['dist/entities/**/*.entity.js'],
-  ssl:/*  process.env.NODE_ENV !== 'local' ? */ { rejectUnauthorized: false } /* : undefined */
+  ssl: process.env.NODE_ENV !== 'local' ? { rejectUnauthorized: false } : undefined
 }))

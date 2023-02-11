@@ -5,7 +5,6 @@ export const Error500Options = {
   description: 'Error interno'
 }
 
-
 export const Error401Options = {
   type: Error400Response,
   description: 'No está autorizado'

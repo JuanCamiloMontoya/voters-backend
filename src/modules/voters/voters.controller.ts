@@ -1,8 +1,10 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, UseGuards } from '@nestjs/common'
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common'
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
+  ApiOkResponse,
+  ApiParam,
   ApiTags,
   ApiUnauthorizedResponse
 } from '@nestjs/swagger'
@@ -14,7 +16,7 @@ import { PageOptionsDto } from 'src/@common/models/dtos/page-options.dto'
 import { Error500Options, Error401Options } from 'src/@common/models/objects/error.object'
 import { ERole } from 'src/entities/@enums/role.enum'
 import { CreateVoterDTO } from './dto/create-voter.dto'
-import { CreateVoterResponse } from './response/create-voter.response'
+import { CheckDocumentResponse, CreateVoterResponse } from './response/create-voter.response'
 import { GetVoterResponse } from './response/get-voters.response'
 import { VotersService } from './voters.service'
 
@@ -35,6 +37,16 @@ export class VotersController {
   @ApiCreatedResponse({ type: CreateVoterResponse, description: 'Datos del nuevo votante' })
   async createVoter(@Body() body: CreateVoterDTO) {
     return await this.votersService.createVoter(body)
+  }
+
+  @Get('/check-document/:document')
+  @Roles(ERole.Admin, ERole.Recorder)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiParam({ name: 'document', type: String, description: 'Cadena númerica' })
+  @ApiOkResponse({ type: CheckDocumentResponse, description: 'Variable de existencia' })
+  async checkDocument(@Param('document') document: string) {
+    return await this.votersService.checkDocument(document)
   }
 
   @Get()

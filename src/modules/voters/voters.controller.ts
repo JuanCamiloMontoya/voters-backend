@@ -17,7 +17,8 @@ import { Error500Options, Error401Options } from 'src/@common/models/objects/err
 import { ERole } from 'src/entities/@enums/role.enum'
 import { CreateVoterDTO } from './dto/create-voter.dto'
 import { CheckDocumentResponse, CreateVoterResponse } from './response/create-voter.response'
-import { GetVoterResponse } from './response/get-voters.response'
+import { GetVoterResponse } from './response/get-voter.response'
+import { GetVotersResponse } from './response/get-voters.response'
 import { VotersService } from './voters.service'
 
 @Controller('voters')
@@ -53,8 +54,18 @@ export class VotersController {
   @Roles(ERole.Admin, ERole.Recorder)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.OK)
-  @ApiPaginatedResponse({ type: GetVoterResponse, description: 'Lista de votantes' })
+  @ApiPaginatedResponse({ type: GetVotersResponse, description: 'Lista de votantes' })
   async getVoters(@Query() pageOptionsDto: PageOptionsDto) {
     return await this.votersService.getVoters(pageOptionsDto)
+  }
+
+  @Get('/:id')
+  @Roles(ERole.Admin, ERole.Recorder)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiParam({ name: 'id', type: String, description: 'Id del votante' })
+  @ApiOkResponse({ type: GetVoterResponse, description: 'Datos del votante' })
+  async getVoterDetail(@Param('id') id: number) {
+    return await this.votersService.getVoterDetail(id)
   }
 }

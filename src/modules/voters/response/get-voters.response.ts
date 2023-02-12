@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
 
-export class GetVoterResponse {
+export class GetVotersResponse {
 
   @ApiProperty({
     example: 456

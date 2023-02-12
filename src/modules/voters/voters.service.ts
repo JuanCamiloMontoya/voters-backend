@@ -90,4 +90,17 @@ export class VotersService {
     return new PageDto(voters, pageMetaDto)
   }
 
+  async getVoterDetail(id: number) {
+    return await this.personRepository.findOne({
+      relations: {
+        hobbies: true,
+        occupations: true,
+        subdivision: {
+          division: true
+        }
+      },
+      where: { id }
+    })
+  }
+
 }

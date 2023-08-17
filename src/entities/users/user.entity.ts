@@ -42,15 +42,14 @@ export class User extends AbstractEntity {
   @ApiProperty()
   state: EState
 
-  @OneToOne(
-    type => Person,
-    person => person.user,
-    { nullable: false, onDelete: 'CASCADE', onUpdate: 'CASCADE' }
-  )
+  @OneToOne(() => Person, person => person.user, { onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'fk_person' })
   person: Person
 
   @OneToMany(() => UserRole, userRole => userRole.user)
   roles: UserRole[]
+
+  @OneToMany(() => Person, person => person.registrar)
+  registered: Person[]
 
 }

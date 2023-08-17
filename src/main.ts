@@ -13,7 +13,7 @@ async function bootstrap() {
   app.enableCors()
   app.useGlobalPipes(new ValidationPipe({ transform: true }))
 
-  setupSwagger(app)
+  setupSwagger(app, appPrefix)
 
   await app.listen(appPort || '4200')
   console.log(`Server running on 1 ${appHostServer}/${appPrefix}`)

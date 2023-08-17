@@ -1,5 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, } from "typeorm"
-/* import { PersonHobby } from "./person-hobby.entity" */
+import { Column, Entity, PrimaryGeneratedColumn, } from "typeorm"
 
 @Entity('hobby', { schema: 'voters' })
 export class Hobby {
@@ -9,8 +8,5 @@ export class Hobby {
 
   @Column('character varying')
   name: string
-
-/*   @OneToMany(() => PersonHobby, personHobby => personHobby.hobby)
-  people: PersonHobby[] */
 
 }

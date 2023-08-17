@@ -15,6 +15,7 @@ import { Subdivision } from "../geographic/subdivision.entity"
 import { User } from "../users/user.entity"
 import { Hobby } from "./hobby.entity"
 import { Occupation } from "./occupation.entity"
+import { EState } from "../@enums/state.enum"
 
 @Entity('person', { schema: 'voters' })
 @Unique(['document'])
@@ -47,6 +48,10 @@ export class Person extends AbstractEntity {
   @Column('date', { nullable: true })
   birthdate: Date
 
+  @Column('enum', { enum: EState, default: EState.Active })
+  @ApiProperty()
+  state: EState
+
   @OneToOne(() => User, user => user.person)
   @ApiProperty()
   user: User
@@ -70,4 +75,8 @@ export class Person extends AbstractEntity {
   @ManyToOne(() => Subdivision, subdivision => subdivision.people, { nullable: true })
   @JoinColumn({ name: 'fk_subdivision' })
   subdivision: Subdivision
+
+  @ManyToOne(() => User, user => user.registered, { nullable: true, onUpdate: 'CASCADE' })
+  @JoinColumn({ name: 'fk_registrar' })
+  registrar: User
 }

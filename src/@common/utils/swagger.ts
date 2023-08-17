@@ -1,7 +1,7 @@
 import type { INestApplication } from "@nestjs/common"
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
 
-export function setupSwagger(app: INestApplication): void {
+export function setupSwagger(app: INestApplication, appPrefix: string): void {
   const config = new DocumentBuilder()
     .setTitle('Voters APP')
     .setDescription('Documentación para Voters APP')
@@ -19,5 +19,10 @@ export function setupSwagger(app: INestApplication): void {
     .build()
 
   const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('docs', app, document)
+  SwaggerModule.setup(
+    `${appPrefix}/docs`,
+    app,
+    document,
+    { swaggerOptions: { persistAuthorization: true } }
+  )
 }

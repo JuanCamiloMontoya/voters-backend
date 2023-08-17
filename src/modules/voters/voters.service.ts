@@ -9,6 +9,8 @@ import { CreateVoterDTO } from './dto/create-voter.dto'
 import { Occupation } from 'src/entities/voters/occupation.entity'
 import { Hobby } from 'src/entities/voters/hobby.entity'
 import { Subdivision } from 'src/entities/geographic/subdivision.entity'
+import { User } from 'src/entities/users/user.entity'
+import { EState } from 'src/entities/@enums/state.enum'
 
 @Injectable()
 export class VotersService {
@@ -19,7 +21,7 @@ export class VotersService {
     private dataSource: DataSource
   ) { }
 
-  async createVoter(voter: CreateVoterDTO) {
+  async createVoter(voter: CreateVoterDTO, registrarId: number) {
 
     let newVoter: Person
 
@@ -47,11 +49,14 @@ export class VotersService {
       if (voter.subdivisionId)
         subdivision = await manager.findOne(Subdivision, { where: { id: voter.subdivisionId } })
 
+      let registrar = await manager.findOne(User, { where: { id: registrarId } })
+
       newVoter = await manager.save(Person, {
         ...voter,
         hobbies,
         occupations,
-        subdivision
+        subdivision,
+        registrar
       })
 
       await queryRunner.commitTransaction()
@@ -78,14 +83,15 @@ export class VotersService {
     const queryBuilder = this.personRepository.createQueryBuilder('voter')
 
     queryBuilder.orderBy('voter.createdAt', pageOptionsDto.order)
+      .where('voter.state != :state', { state: EState.Deleted })
       .skip(pageOptionsDto.skip)
-      .take(pageOptionsDto.take)
+      .take(pageOptionsDto.pageSize)
 
-    const itemCount = await queryBuilder.getCount()
+    const total = await queryBuilder.getCount()
 
     const voters = await queryBuilder.getMany()
 
-    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto })
+    const pageMetaDto = new PageMetaDto({ total, pageOptionsDto })
 
     return new PageDto(voters, pageMetaDto)
   }
@@ -101,6 +107,17 @@ export class VotersService {
       },
       where: { id }
     })
+  }
+
+  async deleteVoter(id: number) {
+    const voter = await this.personRepository.findOneBy({ id })
+
+    if (!voter)
+      throw new HttpException('La persona no existe!', HttpStatus.NOT_FOUND)
+
+    await this.personRepository.update(id, { state: EState.Deleted })
+
+    return { success: true }
   }
 
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common'
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query, Req, UseGuards } from '@nestjs/common'
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -20,6 +20,7 @@ import { CheckDocumentResponse, CreateVoterResponse } from './response/create-vo
 import { GetVoterResponse } from './response/get-voter.response'
 import { GetVotersResponse } from './response/get-voters.response'
 import { VotersService } from './voters.service'
+import { SuccessResponse } from 'src/@common/models/responses/success.response'
 
 @Controller('voters')
 @ApiTags('Votantes')
@@ -36,8 +37,8 @@ export class VotersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.CREATED)
   @ApiCreatedResponse({ type: CreateVoterResponse, description: 'Datos del nuevo votante' })
-  async createVoter(@Body() body: CreateVoterDTO) {
-    return await this.votersService.createVoter(body)
+  async createVoter(@Body() body: CreateVoterDTO, @Req() req) {
+    return await this.votersService.createVoter(body, req.user?.id)
   }
 
   @Get('/check-document/:document')
@@ -67,5 +68,15 @@ export class VotersController {
   @ApiOkResponse({ type: GetVoterResponse, description: 'Datos del votante' })
   async getVoterDetail(@Param('id') id: number) {
     return await this.votersService.getVoterDetail(id)
+  }
+
+  @Delete('/:id')
+  @Roles(ERole.Admin)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiParam({ name: 'id', type: String, description: 'Id del votante' })
+  @ApiOkResponse({ type: SuccessResponse, description: 'Confirmación de la eliminación' })
+  async deleteVoter(@Param('id') id: number) {
+    return await this.votersService.deleteVoter(id)
   }
 }

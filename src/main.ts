@@ -11,7 +11,7 @@ async function bootstrap() {
   const { appPort, appPrefix, appHostServer } = configService.get('app')
   app.setGlobalPrefix(appPrefix)
   app.enableCors()
-  app.useGlobalPipes(new ValidationPipe({ transform: true }))
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }))
 
   setupSwagger(app, appPrefix)
 

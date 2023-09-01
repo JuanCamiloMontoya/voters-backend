@@ -1,8 +1,22 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Query, Req, UseGuards } from '@nestjs/common'
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Query,
+  Req,
+  UseGuards
+} from '@nestjs/common'
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiParam,
   ApiTags,
@@ -13,7 +27,7 @@ import { Roles } from 'src/@common/decorators/roles.decorator'
 import { JwtAuthGuard } from 'src/@common/guards/jwt-auth.guard'
 import { RolesGuard } from 'src/@common/guards/roles.guard'
 import { PageOptionsDto } from 'src/@common/models/dtos/page-options.dto'
-import { Error500Options, Error401Options } from 'src/@common/models/objects/error.object'
+import { Error500Options, Error401Options, Error404Options } from 'src/@common/models/objects/error.object'
 import { ERole } from 'src/entities/@enums/role.enum'
 import { CreateVoterDTO } from './dto/create-voter.dto'
 import { CheckDocumentResponse, CreateVoterResponse } from './response/create-voter.response'
@@ -21,12 +35,14 @@ import { GetVoterResponse } from './response/get-voter.response'
 import { GetVotersResponse } from './response/get-voters.response'
 import { VotersService } from './voters.service'
 import { SuccessResponse } from 'src/@common/models/responses/success.response'
+import { UpdateVoterDTO } from './dto/update-voter.dto'
 
 @Controller('voters')
 @ApiTags('Votantes')
 @ApiBearerAuth('defaultBearerAuth')
 @ApiUnauthorizedResponse(Error401Options)
 @ApiInternalServerErrorResponse(Error500Options)
+@ApiNotFoundResponse(Error404Options)
 export class VotersController {
   constructor(
     private readonly votersService: VotersService
@@ -68,6 +84,16 @@ export class VotersController {
   @ApiOkResponse({ type: GetVoterResponse, description: 'Datos del votante' })
   async getVoterDetail(@Param('id') id: number) {
     return await this.votersService.getVoterDetail(id)
+  }
+
+  @Put('/:id')
+  @Roles(ERole.Admin, ERole.Recorder)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiParam({ name: 'id', type: String, description: 'Id del votante' })
+  @ApiCreatedResponse({ type: UpdateVoterDTO, description: 'Datos del votante' })
+  async updateVoter(@Param('id') id: number, @Body() body: UpdateVoterDTO) {
+    return await this.votersService.updateVoter(id, body)
   }
 
   @Delete('/:id')

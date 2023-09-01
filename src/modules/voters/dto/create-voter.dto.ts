@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { IsEmail, IsNumberString, IsOptional, IsString, Length, MaxLength } from "class-validator"
+import { IsDateString, IsEmail, IsEnum, IsNumberString, IsOptional, IsString, Length, MaxLength } from "class-validator"
+import { EGender } from "src/entities/@enums/gender.enum"
 
 export class CreateVoterDTO {
 
@@ -41,7 +42,15 @@ export class CreateVoterDTO {
   })
   readonly phone: string
 
-  @IsEmail()
+  @IsOptional()
+  @IsEnum(EGender, { message: 'Seleccione una opción válida!' })
+  @ApiProperty({
+    enum: EGender,
+    example: EGender.Female
+  })
+  readonly gender?: EGender
+
+  @IsEmail({}, { message: "Ingrese un correo válido!" })
   @IsOptional()
   @MaxLength(50)
   @ApiPropertyOptional({
@@ -51,16 +60,23 @@ export class CreateVoterDTO {
   readonly email?: string
 
   @IsOptional()
+  @IsDateString()
   @ApiPropertyOptional({
-    example: 45,
-    description: 'Id de la subdivision (Barrio o vereda)'
+    example: new Date('1995-02-11')
   })
-  readonly subdivisionId?: number
+  readonly birthdate?: Date
 
   @IsOptional()
   @ApiPropertyOptional({
     example: 45,
-    description: `Array de ID's de las ocupasiones`,
+    description: 'Id de la subdivision (Barrio o vereda)'
+  })
+  readonly subdivision?: number
+
+  @IsOptional()
+  @ApiPropertyOptional({
+    example: [45, 12],
+    description: `Array de ID's de las ocupaciones`,
     isArray: true
   })
   readonly occupations?: number[]
@@ -68,7 +84,7 @@ export class CreateVoterDTO {
 
   @IsOptional()
   @ApiPropertyOptional({
-    example: 45,
+    example: [45, 12],
     description: `Array de ID's de los hobbies`,
     isArray: true
   })

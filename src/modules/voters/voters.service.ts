@@ -11,6 +11,7 @@ import { Hobby } from 'src/entities/voters/hobby.entity'
 import { Subdivision } from 'src/entities/geographic/subdivision.entity'
 import { User } from 'src/entities/users/user.entity'
 import { EState } from 'src/entities/@enums/state.enum'
+import { UpdateVoterDTO } from './dto/update-voter.dto'
 
 @Injectable()
 export class VotersService {
@@ -33,7 +34,7 @@ export class VotersService {
       const { document } = voter
       const { manager } = queryRunner
 
-      const existDocument = await manager.findOne(Person, { where: { document } })
+      const existDocument = await manager.findOneBy(Person, { document })
       if (existDocument)
         throw new HttpException('El número de documento ya existe!', HttpStatus.CONFLICT)
 
@@ -46,10 +47,10 @@ export class VotersService {
         occupations = await manager.find(Occupation, { where: { id: In(voter.occupations) } })
 
       let subdivision: Subdivision
-      if (voter.subdivisionId)
-        subdivision = await manager.findOne(Subdivision, { where: { id: voter.subdivisionId } })
+      if (voter.subdivision)
+        subdivision = await manager.findOneBy(Subdivision, { id: voter.subdivision })
 
-      let registrar = await manager.findOne(User, { where: { id: registrarId } })
+      let registrar = await manager.findOneBy(User, { id: registrarId })
 
       newVoter = await manager.save(Person, {
         ...voter,
@@ -75,8 +76,8 @@ export class VotersService {
   }
 
   async checkDocument(document: string) {
-    const person = await this.personRepository.findOne({ where: { document } })
-    return { exists: person ? true : false }
+    const voter = await this.personRepository.findOneBy({ document })
+    return { exists: voter ? true : false }
   }
 
   async getVoters(pageOptionsDto: PageOptionsDto) {
@@ -97,7 +98,7 @@ export class VotersService {
   }
 
   async getVoterDetail(id: number) {
-    return await this.personRepository.findOne({
+    const voter = await this.personRepository.findOne({
       relations: {
         hobbies: true,
         occupations: true,
@@ -107,13 +108,76 @@ export class VotersService {
       },
       where: { id }
     })
+
+    if (!voter)
+      throw new HttpException('El votante no existe!', HttpStatus.NOT_FOUND)
+
+    return voter
+  }
+
+  async updateVoter(id: number, voter: UpdateVoterDTO) {
+
+    let updatedVoter: Person
+
+    const queryRunner = this.dataSource.createQueryRunner()
+    await queryRunner.connect()
+    await queryRunner.startTransaction()
+
+    try {
+      const { manager } = queryRunner
+      let currentVoter = await manager.findOneBy(Person, { id })
+
+      if (!currentVoter)
+        throw new HttpException('El votante no existe!', HttpStatus.NOT_FOUND)
+
+      let hobbies: Hobby[]
+      if (voter.hobbies)
+        hobbies = await manager.find(Hobby, { where: { id: In(voter.hobbies) } })
+
+      let occupations: Occupation[]
+      if (voter.occupations)
+        occupations = await manager.find(Occupation, { where: { id: In(voter.occupations) } })
+
+      let subdivision: Subdivision
+      if (voter.subdivision)
+        subdivision = await manager.findOneBy(Subdivision, { id: voter.subdivision })
+
+      currentVoter = {
+        ...currentVoter,
+        firstname: voter.firstname,
+        lastname: voter.lastname,
+        phone: voter.phone,
+        gender: voter.gender || null,
+        email: voter.email || null,
+        birthdate: voter.birthdate || null,
+        subdivision: subdivision || null,
+        occupations: occupations || [],
+        hobbies: hobbies || [],
+      }
+
+      updatedVoter = await manager.save(Person, currentVoter)
+
+      await queryRunner.commitTransaction()
+
+    } catch (error) {
+      await queryRunner.rollbackTransaction()
+      throw new HttpException(
+        error.response?.toString() || error.toString(),
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR
+      )
+    } finally {
+      await queryRunner.release()
+    }
+
+    return updatedVoter
+
   }
 
   async deleteVoter(id: number) {
     const voter = await this.personRepository.findOneBy({ id })
 
     if (!voter)
-      throw new HttpException('La persona no existe!', HttpStatus.NOT_FOUND)
+      throw new HttpException('El votante no existe!', HttpStatus.NOT_FOUND)
 
     await this.personRepository.update(id, { state: EState.Deleted })
 

@@ -75,6 +75,17 @@ export class GeneralController {
     return await this.generalService.getFullSubdivisions(name)
   }
 
+  @Get('/full-subdivision/:subdivisionId')
+  @Roles(ERole.Admin, ERole.Recorder)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @ApiOkResponse({
+    type: GetFullSubdivisionsResponse,
+    description: 'División con subdivisión'
+  })
+  async getFullSubdivision(@Param('subdivisionId') subdivisionId: number) {
+    return await this.generalService.getFullSubdivision(subdivisionId)
+  }
+
   @Get('/hobbies')
   @Roles(ERole.Admin, ERole.Recorder)
   @UseGuards(JwtAuthGuard, RolesGuard)

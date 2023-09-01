@@ -16,9 +16,10 @@ import { User } from "../users/user.entity"
 import { Hobby } from "./hobby.entity"
 import { Occupation } from "./occupation.entity"
 import { EState } from "../@enums/state.enum"
+import { EGender } from "../@enums/gender.enum"
 
 @Entity('person', { schema: 'voters' })
-@Unique(['document'])
+@Unique(['document', "state"])
 export class Person extends AbstractEntity {
 
   @PrimaryGeneratedColumn({ type: 'bigint' })
@@ -48,12 +49,16 @@ export class Person extends AbstractEntity {
   @Column('date', { nullable: true })
   birthdate: Date
 
-  @Column('enum', { enum: EState, default: EState.Active })
   @ApiProperty()
+  @Column('enum', { enum: EGender, nullable: true })
+  gender: EGender
+
+  @ApiProperty()
+  @Column('enum', { enum: EState, default: EState.Active })
   state: EState
 
-  @OneToOne(() => User, user => user.person)
   @ApiProperty()
+  @OneToOne(() => User, user => user.person)
   user: User
 
   @ManyToMany(() => Occupation)

@@ -9,3 +9,8 @@ export const Error401Options = {
   type: Error400Response,
   description: 'No está autorizado'
 }
+
+export const Error404Options = {
+  type: Error400Response,
+  description: 'No encontrado'
+}

@@ -35,11 +35,11 @@ export class UsersService {
 
       const { manager } = queryRunner
 
-      const existDocument = await manager.findOne(Person, { where: { document } })
+      const existDocument = await manager.findOneBy(Person, { document })
       if (existDocument)
         throw new HttpException('El número de documento ya existe!', HttpStatus.CONFLICT)
 
-      const existEmail = await manager.findOne(User, { where: { email } })
+      const existEmail = await manager.findOneBy(User, { email })
       if (existEmail)
         throw new HttpException('El correo ya existe!', HttpStatus.CONFLICT)
 

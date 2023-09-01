@@ -43,6 +43,15 @@ export class GeneralService {
       .getRawMany()
   }
 
+  async getFullSubdivision(id: number) {
+    return await this.divisionRepository.createQueryBuilder('division')
+      .select('subdivision.id', 'id')
+      .addSelect("CONCAT(subdivision.name, ' - ', division.name)", 'name')
+      .innerJoin('division.subdivision', 'subdivision')
+      .where('subdivision.id = :id', { id })
+      .getRawOne()
+  }
+
   async getHobbies() {
     return await this.hobbyRepository.find({
       order: { name: 'ASC' }

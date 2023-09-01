@@ -5,51 +5,53 @@ import {
   Unique,
   OneToOne,
   JoinColumn,
-  OneToMany
-} from "typeorm"
-import { EState } from "../@enums/state.enum"
-import { Person } from "../voters/person.entity"
-import { UserRole } from "./user-role.entity"
-import { Exclude } from "class-transformer"
-import { ApiProperty } from '@nestjs/swagger'
-import { AbstractEntity } from "../@common/abstract.entity"
+  OneToMany,
+} from 'typeorm';
+import { EState } from '../@enums/state.enum';
+import { Person } from '../voters/person.entity';
+import { UserRole } from './user-role.entity';
+import { Exclude } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
+import { AbstractEntity } from '../@common/abstract.entity';
 
 @Entity('user', { schema: 'users' })
 export class User extends AbstractEntity {
-
   @PrimaryGeneratedColumn()
   @ApiProperty()
-  id: number
+  id: number;
 
   @Column('character varying', { length: 200, nullable: true, unique: true })
   @ApiProperty()
-  email: string
+  email: string;
 
   @Column('character varying', { length: 250, nullable: true })
   @ApiProperty()
   @Exclude()
-  password: string
+  password: string;
 
-  @Column('character varying', { length: 250, nullable: true, name: 'password_reset_code' })
+  @Column('character varying', {
+    length: 250,
+    nullable: true,
+    name: 'password_reset_code',
+  })
   @Exclude()
-  passwordResetCode: string
+  passwordResetCode: string;
 
   @Column('timestamp', { nullable: true, name: 'password_reset_expiration' })
   @Exclude()
-  passwordResetExpiration: Date
+  passwordResetExpiration: Date;
 
   @Column('enum', { enum: EState, default: EState.Active })
   @ApiProperty()
-  state: EState
+  state: EState;
 
-  @OneToOne(() => Person, person => person.user, { onUpdate: 'CASCADE' })
+  @OneToOne(() => Person, (person) => person.user, { onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'fk_person' })
-  person: Person
+  person: Person;
 
-  @OneToMany(() => UserRole, userRole => userRole.user)
-  roles: UserRole[]
+  @OneToMany(() => UserRole, (userRole) => userRole.user)
+  roles: UserRole[];
 
-  @OneToMany(() => Person, person => person.registrar)
-  registered: Person[]
-
+  @OneToMany(() => Person, (person) => person.registrar)
+  registered: Person[];
 }

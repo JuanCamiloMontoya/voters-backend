@@ -1,35 +1,33 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class GetVotersResponse {
+  @ApiProperty({
+    example: 456,
+  })
+  id: number;
 
   @ApiProperty({
-    example: 456
+    example: 'Pepe Joaquin',
   })
-  id: number
+  firstname: string;
 
   @ApiProperty({
-    example: 'Pepe Joaquin'
+    example: 'Perez Gomez',
   })
-  firstname: string
+  lastname: string;
 
   @ApiProperty({
-    example: 'Perez Gomez'
+    example: '3133169875',
   })
-  lastname: string
-
-  @ApiProperty({
-    example: '3133169875'
-  })
-  phone: string
+  phone: string;
 
   @ApiPropertyOptional({
-    example: '1112504963'
+    example: '1112504963',
   })
-  document?: string
+  document?: string;
 
   @ApiPropertyOptional({
-    example: 'pepe@gmail.com'
+    example: 'pepe@gmail.com',
   })
-  email?: string
-
+  email?: string;
 }

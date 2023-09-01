@@ -1,14 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger"
+import { ApiProperty } from '@nestjs/swagger';
 
 export class GetUserResponse {
+  @ApiProperty()
+  readonly id: number;
 
   @ApiProperty()
-  readonly id: number
+  readonly email: string;
 
   @ApiProperty()
-  readonly email: string
-
-  @ApiProperty()
-  readonly state: string
-
+  readonly state: string;
 }

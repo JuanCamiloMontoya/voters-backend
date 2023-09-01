@@ -1,18 +1,18 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { LoginResponse } from "./login.response"
+import { ApiProperty } from '@nestjs/swagger';
+import { LoginResponse } from './login.response';
 
 export class PasswordResetRequestResponse {
   @ApiProperty({
-    example: "pepe@gmail.com",
+    example: 'pepe@gmail.com',
   })
-  readonly email: string
+  readonly email: string;
 }
 
 export class VerifyEmailResponse {
   @ApiProperty({
-    example: "312986"
+    example: '312986',
   })
-  readonly code: string
+  readonly code: string;
 }
 
-export class ResetPasswordResponse extends LoginResponse { }
+export class ResetPasswordResponse extends LoginResponse {}

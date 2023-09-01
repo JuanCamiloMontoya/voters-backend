@@ -1,30 +1,24 @@
-import { ApiProperty } from "@nestjs/swagger"
+import { ApiProperty } from '@nestjs/swagger';
 
 class ErrorResponse {
-
   @ApiProperty({
-    example: 'Error X'
+    example: 'Error X',
   })
-  message: String
-
+  message: String;
 }
 
 export class Error500Response extends ErrorResponse {
-
   @ApiProperty({
     example: 500,
-    type: Number
+    type: Number,
   })
-  statusCode: Number
-
+  statusCode: Number;
 }
 
 export class Error400Response extends ErrorResponse {
-
   @ApiProperty({
     example: 400,
-    type: Number
+    type: Number,
   })
-  statusCode: Number
-
+  statusCode: Number;
 }

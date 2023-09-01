@@ -1,15 +1,14 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm"
-import { City } from "./city.entity"
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { City } from './city.entity';
 
 @Entity('department', { schema: 'geographic' })
 export class Department {
-
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column()
-  name: string
+  name: string;
 
-  @OneToMany(() => City, city => city.department)
-  cities: City[]
+  @OneToMany(() => City, (city) => city.department)
+  cities: City[];
 }

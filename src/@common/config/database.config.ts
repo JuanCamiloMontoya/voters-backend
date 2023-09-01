@@ -1,4 +1,4 @@
-import { registerAs } from "@nestjs/config"
+import { registerAs } from '@nestjs/config';
 
 export default registerAs('database', () => ({
   type: process.env.DB_TYPE,
@@ -10,5 +10,8 @@ export default registerAs('database', () => ({
   synchronize: true,
   logging: false,
   entities: ['dist/entities/**/*.entity.js'],
-  ssl: process.env.NODE_ENV !== 'local' ? { rejectUnauthorized: false } : undefined
-}))
+  ssl:
+    process.env.NODE_ENV !== 'local'
+      ? { rejectUnauthorized: false }
+      : undefined,
+}));

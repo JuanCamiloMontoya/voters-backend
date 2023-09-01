@@ -1,3 +1,3 @@
-import { GeneralResponse } from "src/@common/models/responses/general.response"
+import { GeneralResponse } from 'src/@common/models/responses/general.response';
 
-export class GetOccupationsResponse extends GeneralResponse { }
+export class GetOccupationsResponse extends GeneralResponse {}

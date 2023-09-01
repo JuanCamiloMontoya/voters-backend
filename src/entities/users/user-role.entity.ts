@@ -3,27 +3,32 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn
-} from "typeorm"
-import { AbstractEntity } from "../@common/abstract.entity"
-import { EState } from "../@enums/state.enum"
-import { Role } from "./role.entity"
-import { User } from "./user.entity"
+  JoinColumn,
+} from 'typeorm';
+import { AbstractEntity } from '../@common/abstract.entity';
+import { EState } from '../@enums/state.enum';
+import { Role } from './role.entity';
+import { User } from './user.entity';
 
 @Entity('user_role', { schema: 'users' })
 export class UserRole {
-
   @PrimaryGeneratedColumn({ type: 'bigint' })
-  id: number
+  id: number;
 
   @Column('enum', { enum: EState, default: EState.Active })
-  state: EState
+  state: EState;
 
-  @ManyToOne(() => User, user => user.roles, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.roles, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'fk_user' })
-  user: User
+  user: User;
 
-  @ManyToOne(() => Role, role => role.users, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
+  @ManyToOne(() => Role, (role) => role.users, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'fk_role' })
-  role: Role
+  role: Role;
 }

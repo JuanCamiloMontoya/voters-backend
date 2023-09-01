@@ -1,25 +1,21 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { GeneralResponse } from "src/@common/models/responses/general.response"
-import { EDivision, ESubdivision } from "src/entities/@enums/division.enum"
+import { ApiProperty } from '@nestjs/swagger';
+import { GeneralResponse } from 'src/@common/models/responses/general.response';
+import { EDivision, ESubdivision } from 'src/entities/@enums/division.enum';
 
 export class GetDivisionsResponse extends GeneralResponse {
-
   @ApiProperty({
     enum: EDivision,
-    example: EDivision.Commune
+    example: EDivision.Commune,
   })
-  type: EDivision
-
+  type: EDivision;
 }
 
 export class GetSubdivisionsResponse extends GeneralResponse {
-
   @ApiProperty({
     enum: ESubdivision,
-    example: ESubdivision.Neighborhood
+    example: ESubdivision.Neighborhood,
   })
-  type: ESubdivision
-
+  type: ESubdivision;
 }
 
-export class GetFullSubdivisionsResponse extends GeneralResponse { }
+export class GetFullSubdivisionsResponse extends GeneralResponse {}

@@ -1,82 +1,76 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
-import { GeneralResponse } from "src/@common/models/responses/general.response"
-import { EDivision, ESubdivision } from "src/entities/@enums/division.enum"
-import { Hobby } from "src/entities/voters/hobby.entity"
-import { Occupation } from "src/entities/voters/occupation.entity"
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { GeneralResponse } from 'src/@common/models/responses/general.response';
+import { EDivision, ESubdivision } from 'src/entities/@enums/division.enum';
+import { Hobby } from 'src/entities/voters/hobby.entity';
+import { Occupation } from 'src/entities/voters/occupation.entity';
 
 class Division extends GeneralResponse {
-
   @ApiPropertyOptional({
-    enum: EDivision
+    enum: EDivision,
   })
-  type: EDivision
-
+  type: EDivision;
 }
 
 class Subdivision extends GeneralResponse {
+  @ApiPropertyOptional({
+    enum: ESubdivision,
+  })
+  type: ESubdivision;
 
   @ApiPropertyOptional({
-    enum: ESubdivision
+    type: Division,
   })
-  type: ESubdivision
-
-  @ApiPropertyOptional({
-    type: Division
-  })
-  division: Division
-
+  division: Division;
 }
 
 export class GetVoterResponse {
+  @ApiProperty({
+    example: 456,
+  })
+  id: number;
 
   @ApiProperty({
-    example: 456
+    example: 'Pepe Joaquin',
   })
-  id: number
+  firstname: string;
 
   @ApiProperty({
-    example: 'Pepe Joaquin'
+    example: 'Perez Gomez',
   })
-  firstname: string
+  lastname: string;
 
   @ApiProperty({
-    example: 'Perez Gomez'
+    example: '3133169875',
   })
-  lastname: string
-
-  @ApiProperty({
-    example: '3133169875'
-  })
-  phone: string
+  phone: string;
 
   @ApiPropertyOptional({
-    example: '1112504963'
+    example: '1112504963',
   })
-  document?: string
+  document?: string;
 
   @ApiPropertyOptional({
-    example: 'pepe@gmail.com'
+    example: 'pepe@gmail.com',
   })
-  email?: string
+  email?: string;
 
   @ApiPropertyOptional({
-    example: '18-01-1999'
+    example: '18-01-1999',
   })
-  birthdate?: string
+  birthdate?: string;
 
   @ApiPropertyOptional({
-    type: GeneralResponse
+    type: GeneralResponse,
   })
-  hobbies: Hobby[]
+  hobbies: Hobby[];
 
   @ApiPropertyOptional({
-    type: GeneralResponse
+    type: GeneralResponse,
   })
-  occupations: Occupation[]
+  occupations: Occupation[];
 
   @ApiPropertyOptional({
-    type: Subdivision
+    type: Subdivision,
   })
-  subdivision: number
-
+  subdivision: number;
 }

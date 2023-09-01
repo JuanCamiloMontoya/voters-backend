@@ -1,9 +1,9 @@
 export enum EDivision {
   Commune = 'commune',
-  Corregimiento = 'corregimiento'
+  Corregimiento = 'corregimiento',
 }
 
 export enum ESubdivision {
   Neighborhood = 'neighborhood',
-  RuralSettlement = 'rural_settlement'
+  RuralSettlement = 'rural_settlement',
 }

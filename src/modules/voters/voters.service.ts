@@ -78,7 +78,7 @@ export class VotersService {
       await queryRunner.release();
     }
 
-    return newVoter;
+    return await this.getVoterDetail(newVoter.id);
   }
 
   async checkDocument(document: string) {

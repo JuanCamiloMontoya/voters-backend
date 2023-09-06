@@ -1,15 +1,15 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { RolePermission } from './role-permission.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { RolePermission } from "./role-permission.entity";
 
-@Entity('permission', { schema: 'users' })
+@Entity("permission", { schema: "users" })
 export class Permission {
-  @PrimaryGeneratedColumn({ type: 'smallint' })
+  @PrimaryGeneratedColumn({ type: "smallint" })
   id: number;
 
-  @Column('character varying')
+  @Column("character varying")
   key: string;
 
-  @Column('character varying')
+  @Column("character varying")
   name: string;
 
   @OneToMany(

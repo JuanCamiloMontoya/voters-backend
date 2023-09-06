@@ -5,7 +5,7 @@ import {
   IsNumber,
   Min,
   Max,
-} from 'class-validator';
+} from "class-validator";
 
 export class UpdatePasswordDTO {
   @IsEmail()

@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from "@nestjs/swagger";
 
 export class GeneralResponse {
   @ApiProperty({
@@ -7,7 +7,7 @@ export class GeneralResponse {
   id: number;
 
   @ApiProperty({
-    example: 'Xyz',
+    example: "Xyz",
   })
   name: string;
 }

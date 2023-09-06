@@ -1,10 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('hobby', { schema: 'voters' })
+@Entity("hobby", { schema: "voters" })
 export class Hobby {
-  @PrimaryGeneratedColumn({ type: 'int' })
+  @PrimaryGeneratedColumn({ type: "int" })
   id: number;
 
-  @Column('character varying')
+  @Column("character varying")
   name: string;
 }

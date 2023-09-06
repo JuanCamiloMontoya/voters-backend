@@ -1,17 +1,17 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource, In, Repository } from 'typeorm';
-import { PageMetaDto } from 'src/@common/models/dtos/page-meta.dto';
-import { PageOptionsDto } from 'src/@common/models/dtos/page-options.dto';
-import { PageDto } from 'src/@common/models/dtos/page.dto';
-import { Person } from 'src/entities/voters/person.entity';
-import { CreateVoterDTO } from './dto/create-voter.dto';
-import { Occupation } from 'src/entities/voters/occupation.entity';
-import { Hobby } from 'src/entities/voters/hobby.entity';
-import { Subdivision } from 'src/entities/geographic/subdivision.entity';
-import { User } from 'src/entities/users/user.entity';
-import { EState } from 'src/entities/@enums/state.enum';
-import { UpdateVoterDTO } from './dto/update-voter.dto';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { DataSource, In, Repository } from "typeorm";
+import { PageMetaDto } from "src/@common/models/dtos/page-meta.dto";
+import { PageOptionsDto } from "src/@common/models/dtos/page-options.dto";
+import { PageDto } from "src/@common/models/dtos/page.dto";
+import { Person } from "src/entities/voters/person.entity";
+import { CreateVoterDTO } from "./dto/create-voter.dto";
+import { Occupation } from "src/entities/voters/occupation.entity";
+import { Hobby } from "src/entities/voters/hobby.entity";
+import { Subdivision } from "src/entities/geographic/subdivision.entity";
+import { User } from "src/entities/users/user.entity";
+import { EState } from "src/entities/@enums/state.enum";
+import { UpdateVoterDTO } from "./dto/update-voter.dto";
 
 @Injectable()
 export class VotersService {
@@ -35,7 +35,7 @@ export class VotersService {
       const existDocument = await manager.findOneBy(Person, { document });
       if (existDocument)
         throw new HttpException(
-          'El número de documento ya existe!',
+          "El número de documento ya existe!",
           HttpStatus.CONFLICT,
         );
 
@@ -87,11 +87,11 @@ export class VotersService {
   }
 
   async getVoters(pageOptionsDto: PageOptionsDto) {
-    const queryBuilder = this.personRepository.createQueryBuilder('voter');
+    const queryBuilder = this.personRepository.createQueryBuilder("voter");
 
     queryBuilder
-      .orderBy('voter.createdAt', pageOptionsDto.order)
-      .where('voter.state != :state', { state: EState.Deleted })
+      .orderBy("voter.createdAt", pageOptionsDto.order)
+      .where("voter.state != :state", { state: EState.Deleted })
       .skip(pageOptionsDto.skip)
       .take(pageOptionsDto.pageSize);
 
@@ -117,7 +117,7 @@ export class VotersService {
     });
 
     if (!voter)
-      throw new HttpException('El votante no existe!', HttpStatus.NOT_FOUND);
+      throw new HttpException("El votante no existe!", HttpStatus.NOT_FOUND);
 
     return voter;
   }
@@ -134,7 +134,7 @@ export class VotersService {
       let currentVoter = await manager.findOneBy(Person, { id });
 
       if (!currentVoter)
-        throw new HttpException('El votante no existe!', HttpStatus.NOT_FOUND);
+        throw new HttpException("El votante no existe!", HttpStatus.NOT_FOUND);
 
       let hobbies: Hobby[];
       if (voter.hobbies)
@@ -187,7 +187,7 @@ export class VotersService {
     const voter = await this.personRepository.findOneBy({ id });
 
     if (!voter)
-      throw new HttpException('El votante no existe!', HttpStatus.NOT_FOUND);
+      throw new HttpException("El votante no existe!", HttpStatus.NOT_FOUND);
 
     await this.personRepository.update(id, { state: EState.Deleted });
 

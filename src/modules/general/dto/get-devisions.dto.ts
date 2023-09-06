@@ -1,9 +1,9 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString, MinLength } from 'class-validator';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsOptional, IsString, MinLength } from "class-validator";
 
 export class GetDivisionsAndSubdivisonsDTO {
   @ApiProperty({
-    example: 'Vergel',
+    example: "Vergel",
     required: false,
   })
   @IsOptional()

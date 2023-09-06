@@ -5,12 +5,12 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
-} from 'typeorm';
-import { ESubdivision } from '../@enums/division.enum';
-import { Person } from '../voters/person.entity';
-import { Division } from './division.entity';
+} from "typeorm";
+import { ESubdivision } from "../@enums/division.enum";
+import { Person } from "../voters/person.entity";
+import { Division } from "./division.entity";
 
-@Entity('subdivision', { schema: 'geographic' })
+@Entity("subdivision", { schema: "geographic" })
 export class Subdivision {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,13 +18,13 @@ export class Subdivision {
   @Column()
   name: string;
 
-  @Column('enum', { enum: ESubdivision, default: ESubdivision.RuralSettlement })
+  @Column("enum", { enum: ESubdivision, default: ESubdivision.RuralSettlement })
   type: ESubdivision;
 
   @ManyToOne(() => Division, (division) => division.subdivision, {
     nullable: false,
   })
-  @JoinColumn({ name: 'fk_division' })
+  @JoinColumn({ name: "fk_division" })
   division: Division;
 
   @OneToMany(() => Person, (person) => person.subdivision)

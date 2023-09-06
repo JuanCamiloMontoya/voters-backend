@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { GeneralResponse } from 'src/@common/models/responses/general.response';
-import { EDivision, ESubdivision } from 'src/entities/@enums/division.enum';
+import { ApiProperty } from "@nestjs/swagger";
+import { GeneralResponse } from "src/@common/models/responses/general.response";
+import { EDivision, ESubdivision } from "src/entities/@enums/division.enum";
 
 export class GetDivisionsResponse extends GeneralResponse {
   @ApiProperty({

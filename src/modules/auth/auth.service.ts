@@ -1,18 +1,18 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
-import { Template } from 'src/@common/services/sendgrid/template.constant';
-import { SendgridService } from 'src/@common/services/sendgrid/sendgrid.service';
-import { User } from 'src/entities/users/user.entity';
-import { UsersService } from '../users/users.service';
-import { LoginDTO } from './dto/login.dto';
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import * as bcrypt from "bcrypt";
+import { Template } from "src/@common/services/sendgrid/template.constant";
+import { SendgridService } from "src/@common/services/sendgrid/sendgrid.service";
+import { User } from "src/entities/users/user.entity";
+import { UsersService } from "../users/users.service";
+import { LoginDTO } from "./dto/login.dto";
 import {
   PasswordResetRequestDTO,
   ResetPasswordDTO,
   VerifyEmailDTO,
-} from './dto/password-reset.dto';
+} from "./dto/password-reset.dto";
 
 @Injectable()
 export class AuthService {
@@ -40,7 +40,7 @@ export class AuthService {
 
     if (!user)
       throw new HttpException(
-        'Credenciales incorrectas!',
+        "Credenciales incorrectas!",
         HttpStatus.UNAUTHORIZED,
       );
 
@@ -52,7 +52,7 @@ export class AuthService {
       const { email } = body;
       const user = await this.userService.getUserByEmail(email);
       if (!user)
-        throw new HttpException('Usuario no encontrado!', HttpStatus.NOT_FOUND);
+        throw new HttpException("Usuario no encontrado!", HttpStatus.NOT_FOUND);
 
       const passwordResetCode = Math.floor(
         100000 + Math.random() * 900000,
@@ -84,7 +84,7 @@ export class AuthService {
     try {
       const { code, email } = body;
       const user = await this.userRepository.findOne({
-        select: ['passwordResetCode', 'passwordResetExpiration'],
+        select: ["passwordResetCode", "passwordResetExpiration"],
         where: { email },
       });
       const isMatch =
@@ -92,13 +92,13 @@ export class AuthService {
 
       if (!isMatch)
         throw new HttpException(
-          'Código no válido! Compruebe el código e intentelo de nuevo.',
+          "Código no válido! Compruebe el código e intentelo de nuevo.",
           HttpStatus.NOT_ACCEPTABLE,
         );
 
       if (new Date() > user.passwordResetExpiration)
         throw new HttpException(
-          'El código ya expiró! Solicite el código nuevamente.',
+          "El código ya expiró! Solicite el código nuevamente.",
           HttpStatus.NOT_ACCEPTABLE,
         );
 
@@ -126,7 +126,7 @@ export class AuthService {
       let { email, code, password } = body;
 
       const user = await this.userRepository.findOne({
-        select: ['passwordResetCode', 'passwordResetExpiration'],
+        select: ["passwordResetCode", "passwordResetExpiration"],
         where: { email },
       });
       const isMatch =
@@ -134,13 +134,13 @@ export class AuthService {
 
       if (new Date() > user.passwordResetExpiration)
         throw new HttpException(
-          'Ya se excedió el tiempo de recuperación de contraseña! Haz lo solicitud de nuevo.',
+          "Ya se excedió el tiempo de recuperación de contraseña! Haz lo solicitud de nuevo.",
           HttpStatus.NOT_ACCEPTABLE,
         );
 
       if (!isMatch)
         throw new HttpException(
-          'Los datos suministrados son incorrectos!',
+          "Los datos suministrados son incorrectos!",
           HttpStatus.NOT_ACCEPTABLE,
         );
 

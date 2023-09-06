@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import {
   IsDateString,
   IsEmail,
@@ -8,14 +8,14 @@ import {
   IsString,
   Length,
   MaxLength,
-} from 'class-validator';
-import { EGender } from 'src/entities/@enums/gender.enum';
+} from "class-validator";
+import { EGender } from "src/entities/@enums/gender.enum";
 
 export class CreateVoterDTO {
   @IsString()
   @Length(3, 30)
   @ApiProperty({
-    example: 'Pepe',
+    example: "Pepe",
     minLength: 3,
     maxLength: 30,
   })
@@ -24,7 +24,7 @@ export class CreateVoterDTO {
   @IsString()
   @Length(3, 30)
   @ApiProperty({
-    example: 'Perez',
+    example: "Perez",
     minLength: 3,
     maxLength: 30,
   })
@@ -33,8 +33,8 @@ export class CreateVoterDTO {
   @IsNumberString()
   @Length(6, 10)
   @ApiProperty({
-    description: 'Cadena numérica',
-    example: '1023369852',
+    description: "Cadena numérica",
+    example: "1023369852",
     minLength: 7,
     maxLength: 10,
   })
@@ -43,26 +43,26 @@ export class CreateVoterDTO {
   @Length(10, 10)
   @IsNumberString()
   @ApiProperty({
-    description: 'Cadena numérica',
-    example: '3124567890',
+    description: "Cadena numérica",
+    example: "3124567890",
     minLength: 7,
     maxLength: 12,
   })
   readonly phone: string;
 
   @IsOptional()
-  @IsEnum(EGender, { message: 'Seleccione una opción válida!' })
+  @IsEnum(EGender, { message: "Seleccione una opción válida!" })
   @ApiProperty({
     enum: EGender,
     example: EGender.Female,
   })
   readonly gender?: EGender;
 
-  @IsEmail({}, { message: 'Ingrese un correo válido!' })
+  @IsEmail({}, { message: "Ingrese un correo válido!" })
   @IsOptional()
   @MaxLength(50)
   @ApiPropertyOptional({
-    example: 'pepe@gmail.com',
+    example: "pepe@gmail.com",
     maxLength: 50,
   })
   readonly email?: string;
@@ -70,14 +70,14 @@ export class CreateVoterDTO {
   @IsOptional()
   @IsDateString()
   @ApiPropertyOptional({
-    example: new Date('1995-02-11'),
+    example: new Date("1995-02-11"),
   })
   readonly birthdate?: Date;
 
   @IsOptional()
   @ApiPropertyOptional({
     example: 45,
-    description: 'Id de la subdivision (Barrio o vereda)',
+    description: "Id de la subdivision (Barrio o vereda)",
   })
   readonly subdivision?: number;
 

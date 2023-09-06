@@ -5,12 +5,12 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
-} from 'typeorm';
-import { Department } from './department.entity';
-import { Division } from './division.entity';
-import { Subdivision } from './subdivision.entity';
+} from "typeorm";
+import { Department } from "./department.entity";
+import { Division } from "./division.entity";
+import { Subdivision } from "./subdivision.entity";
 
-@Entity('city', { schema: 'geographic' })
+@Entity("city", { schema: "geographic" })
 export class City {
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,7 +21,7 @@ export class City {
   @ManyToOne(() => Department, (department) => department.cities, {
     nullable: false,
   })
-  @JoinColumn({ name: 'fk_department' })
+  @JoinColumn({ name: "fk_department" })
   department: Department;
 
   @OneToMany(() => Division, (division) => division.city)

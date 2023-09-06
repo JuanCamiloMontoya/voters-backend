@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { City } from './city.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { City } from "./city.entity";
 
-@Entity('department', { schema: 'geographic' })
+@Entity("department", { schema: "geographic" })
 export class Department {
   @PrimaryGeneratedColumn()
   id: number;

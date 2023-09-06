@@ -4,18 +4,18 @@ import {
   HttpStatus,
   Inject,
   Injectable,
-} from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { sampleSize } from 'lodash';
-import * as bcrypt from 'bcrypt';
-import { Person } from 'src/entities/voters/person.entity';
-import { User } from 'src/entities/users/user.entity';
-import { UserRole } from 'src/entities/users/user-role.entity';
-import { CreateRecorderDTO } from './dto/create-recorder.dto';
-import { UpdatePasswordDTO } from './dto/update-password.dto';
-import { AuthService } from '../auth/auth.service';
-import { Role } from 'src/entities/users/role.entity';
+} from "@nestjs/common";
+import { DataSource, Repository } from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
+import { sampleSize } from "lodash";
+import * as bcrypt from "bcrypt";
+import { Person } from "src/entities/voters/person.entity";
+import { User } from "src/entities/users/user.entity";
+import { UserRole } from "src/entities/users/user-role.entity";
+import { CreateRecorderDTO } from "./dto/create-recorder.dto";
+import { UpdatePasswordDTO } from "./dto/update-password.dto";
+import { AuthService } from "../auth/auth.service";
+import { Role } from "src/entities/users/role.entity";
 
 @Injectable()
 export class UsersService {
@@ -44,20 +44,20 @@ export class UsersService {
       const existDocument = await manager.findOneBy(Person, { document });
       if (existDocument)
         throw new HttpException(
-          'El número de documento ya existe!',
+          "El número de documento ya existe!",
           HttpStatus.CONFLICT,
         );
 
       const existEmail = await manager.findOneBy(User, { email });
       if (existEmail)
-        throw new HttpException('El correo ya existe!', HttpStatus.CONFLICT);
+        throw new HttpException("El correo ya existe!", HttpStatus.CONFLICT);
 
       const newPerson = await manager.save(Person, recorder);
 
       let password = sampleSize(
-        'ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789!@#$%-+&_*',
+        "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz0123456789!@#$%-+&_*",
         10,
-      ).join('');
+      ).join("");
 
       password = await bcrypt.hash(password, 10);
       newRecorder = await manager.save(User, {
@@ -86,22 +86,22 @@ export class UsersService {
   }
 
   async getAllUsers() {
-    return await this.userRepository.find({ select: ['id', 'email', 'state'] });
+    return await this.userRepository.find({ select: ["id", "email", "state"] });
   }
 
   async getUserByEmail(email: string) {
     return await this.userRepository
-      .createQueryBuilder('user')
-      .select(['user.id', 'user.email', 'user.password'])
-      .where('user.email = :email', { email })
+      .createQueryBuilder("user")
+      .select(["user.id", "user.email", "user.password"])
+      .where("user.email = :email", { email })
       .getOne();
   }
 
   async getUserRoles(userId: number) {
     return await this.roleRepository
-      .createQueryBuilder('role')
-      .select('role.key')
-      .innerJoin('role.users', 'userRole', 'userRole.fk_user = :userId', {
+      .createQueryBuilder("role")
+      .select("role.key")
+      .innerJoin("role.users", "userRole", "userRole.fk_user = :userId", {
         userId,
       })
       .getMany();
@@ -115,7 +115,7 @@ export class UsersService {
 
       if (!user)
         throw new HttpException(
-          'Los datos suministrados son incorrectos!',
+          "Los datos suministrados son incorrectos!",
           HttpStatus.NOT_ACCEPTABLE,
         );
 

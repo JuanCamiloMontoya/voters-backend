@@ -11,7 +11,7 @@ import {
   Query,
   Req,
   UseGuards,
-} from '@nestjs/common';
+} from "@nestjs/common";
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -21,32 +21,32 @@ import {
   ApiParam,
   ApiTags,
   ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
-import { ApiPaginatedResponse } from 'src/@common/decorators/paginate.decorator';
-import { Roles } from 'src/@common/decorators/roles.decorator';
-import { JwtAuthGuard } from 'src/@common/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/@common/guards/roles.guard';
-import { PageOptionsDto } from 'src/@common/models/dtos/page-options.dto';
+} from "@nestjs/swagger";
+import { ApiPaginatedResponse } from "src/@common/decorators/paginate.decorator";
+import { Roles } from "src/@common/decorators/roles.decorator";
+import { JwtAuthGuard } from "src/@common/guards/jwt-auth.guard";
+import { RolesGuard } from "src/@common/guards/roles.guard";
+import { PageOptionsDto } from "src/@common/models/dtos/page-options.dto";
 import {
   Error500Options,
   Error401Options,
   Error404Options,
-} from 'src/@common/models/objects/error.object';
-import { ERole } from 'src/entities/@enums/role.enum';
-import { CreateVoterDTO } from './dto/create-voter.dto';
+} from "src/@common/models/objects/error.object";
+import { ERole } from "src/entities/@enums/role.enum";
+import { CreateVoterDTO } from "./dto/create-voter.dto";
 import {
   CheckDocumentResponse,
   CreateVoterResponse,
-} from './response/create-voter.response';
-import { GetVoterResponse } from './response/get-voter.response';
-import { GetVotersResponse } from './response/get-voters.response';
-import { VotersService } from './voters.service';
-import { SuccessResponse } from 'src/@common/models/responses/success.response';
-import { UpdateVoterDTO } from './dto/update-voter.dto';
+} from "./response/create-voter.response";
+import { GetVoterResponse } from "./response/get-voter.response";
+import { GetVotersResponse } from "./response/get-voters.response";
+import { VotersService } from "./voters.service";
+import { SuccessResponse } from "src/@common/models/responses/success.response";
+import { UpdateVoterDTO } from "./dto/update-voter.dto";
 
-@Controller('voters')
-@ApiTags('Votantes')
-@ApiBearerAuth('defaultBearerAuth')
+@Controller("voters")
+@ApiTags("Votantes")
+@ApiBearerAuth("defaultBearerAuth")
 @ApiUnauthorizedResponse(Error401Options)
 @ApiInternalServerErrorResponse(Error500Options)
 @ApiNotFoundResponse(Error404Options)
@@ -59,22 +59,22 @@ export class VotersController {
   @HttpCode(HttpStatus.CREATED)
   @ApiCreatedResponse({
     type: CreateVoterResponse,
-    description: 'Datos del nuevo votante',
+    description: "Datos del nuevo votante",
   })
   async createVoter(@Body() body: CreateVoterDTO, @Req() req) {
     return await this.votersService.createVoter(body, req.user?.id);
   }
 
-  @Get('/check-document/:document')
+  @Get("/check-document/:document")
   @Roles(ERole.Admin, ERole.Recorder)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.OK)
-  @ApiParam({ name: 'document', type: String, description: 'Cadena númerica' })
+  @ApiParam({ name: "document", type: String, description: "Cadena númerica" })
   @ApiOkResponse({
     type: CheckDocumentResponse,
-    description: 'Variable de existencia',
+    description: "Variable de existencia",
   })
-  async checkDocument(@Param('document') document: string) {
+  async checkDocument(@Param("document") document: string) {
     return await this.votersService.checkDocument(document);
   }
 
@@ -84,45 +84,45 @@ export class VotersController {
   @HttpCode(HttpStatus.OK)
   @ApiPaginatedResponse({
     type: GetVotersResponse,
-    description: 'Lista de votantes',
+    description: "Lista de votantes",
   })
   async getVoters(@Query() pageOptionsDto: PageOptionsDto) {
     return await this.votersService.getVoters(pageOptionsDto);
   }
 
-  @Get('/:id')
+  @Get("/:id")
   @Roles(ERole.Admin, ERole.Recorder)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.OK)
-  @ApiParam({ name: 'id', type: String, description: 'Id del votante' })
-  @ApiOkResponse({ type: GetVoterResponse, description: 'Datos del votante' })
-  async getVoterDetail(@Param('id') id: number) {
+  @ApiParam({ name: "id", type: String, description: "Id del votante" })
+  @ApiOkResponse({ type: GetVoterResponse, description: "Datos del votante" })
+  async getVoterDetail(@Param("id") id: number) {
     return await this.votersService.getVoterDetail(id);
   }
 
-  @Put('/:id')
+  @Put("/:id")
   @Roles(ERole.Admin, ERole.Recorder)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.OK)
-  @ApiParam({ name: 'id', type: String, description: 'Id del votante' })
+  @ApiParam({ name: "id", type: String, description: "Id del votante" })
   @ApiCreatedResponse({
     type: UpdateVoterDTO,
-    description: 'Datos del votante',
+    description: "Datos del votante",
   })
-  async updateVoter(@Param('id') id: number, @Body() body: UpdateVoterDTO) {
+  async updateVoter(@Param("id") id: number, @Body() body: UpdateVoterDTO) {
     return await this.votersService.updateVoter(id, body);
   }
 
-  @Delete('/:id')
+  @Delete("/:id")
   @Roles(ERole.Admin)
   @UseGuards(JwtAuthGuard, RolesGuard)
   @HttpCode(HttpStatus.OK)
-  @ApiParam({ name: 'id', type: String, description: 'Id del votante' })
+  @ApiParam({ name: "id", type: String, description: "Id del votante" })
   @ApiOkResponse({
     type: SuccessResponse,
-    description: 'Confirmación de la eliminación',
+    description: "Confirmación de la eliminación",
   })
-  async deleteVoter(@Param('id') id: number) {
+  async deleteVoter(@Param("id") id: number) {
     return await this.votersService.deleteVoter(id);
   }
 }

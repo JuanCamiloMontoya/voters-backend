@@ -5,8 +5,10 @@ import appConfig from "./config/app.config";
 import authConfig from "./config/auth.config";
 import databaseConfig from "./config/database.config";
 import sendgridConfig from "./config/sendgrid.config";
-import { SendgridService } from "./services/sendgrid/sendgrid.service";
 import whaticketConfig from "./config/whaticket.config";
+import { SendgridService } from "./services/sendgrid/sendgrid.service";
+import { WhaticketService } from "./services/whaticket/whaticket.service";
+import { HttpModule } from "@nestjs/axios";
 
 @Global()
 @Module({
@@ -28,8 +30,18 @@ import whaticketConfig from "./config/whaticket.config";
       useFactory: (configService: ConfigService) =>
         configService.get("database"),
     }),
+    HttpModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        baseURL: configService.get("whaticket.baseUrl"),
+        headers: {
+          Authorization: `Bearer ${configService.get("whaticket.token")}`,
+        },
+      }),
+      inject: [ConfigService],
+    }),
   ],
-  providers: [SendgridService],
-  exports: [SendgridService],
+  providers: [SendgridService, WhaticketService],
+  exports: [SendgridService, WhaticketService],
 })
 export class CommonModule {}

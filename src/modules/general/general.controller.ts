@@ -1,4 +1,11 @@
-import { Controller, Get, Param, Query, UseGuards } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Query,
+  UseGuards,
+} from "@nestjs/common";
 import {
   ApiBearerAuth,
   ApiInternalServerErrorResponse,
@@ -53,7 +60,7 @@ export class GeneralController {
     description: "Lista de subdivisiones por división",
     isArray: true,
   })
-  async getSubdivisions(@Param("divisionId") divisionId: number) {
+  async getSubdivisions(@Param("divisionId", ParseIntPipe) divisionId: number) {
     return await this.generalService.getSubdivisions(divisionId);
   }
 
@@ -82,7 +89,7 @@ export class GeneralController {
     type: GetFullSubdivisionsResponse,
     description: "División con subdivisión",
   })
-  async getFullSubdivision(@Param("subdivisionId") subdivisionId: number) {
+  async getFullSubdivision(@Param("subdivisionId", ParseIntPipe) subdivisionId: number) {
     return await this.generalService.getFullSubdivision(subdivisionId);
   }
 

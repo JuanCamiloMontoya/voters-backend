@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -96,7 +97,7 @@ export class VotersController {
   @HttpCode(HttpStatus.OK)
   @ApiParam({ name: "id", type: String, description: "Id del votante" })
   @ApiOkResponse({ type: GetVoterResponse, description: "Datos del votante" })
-  async getVoterDetail(@Param("id") id: number) {
+  async getVoterDetail(@Param("id", ParseIntPipe) id: number) {
     return await this.votersService.getVoterDetail(id);
   }
 
@@ -109,7 +110,10 @@ export class VotersController {
     type: UpdateVoterDTO,
     description: "Datos del votante",
   })
-  async updateVoter(@Param("id") id: number, @Body() body: UpdateVoterDTO) {
+  async updateVoter(
+    @Param("id", ParseIntPipe) id: number,
+    @Body() body: UpdateVoterDTO,
+  ) {
     return await this.votersService.updateVoter(id, body);
   }
 
@@ -122,7 +126,7 @@ export class VotersController {
     type: SuccessResponse,
     description: "Confirmación de la eliminación",
   })
-  async deleteVoter(@Param("id") id: number) {
+  async deleteVoter(@Param("id", ParseIntPipe) id: number) {
     return await this.votersService.deleteVoter(id);
   }
 }

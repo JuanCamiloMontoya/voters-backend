@@ -11,10 +11,7 @@ export class MessagingService {
     private personRepository: Repository<Person>,
   ) {}
 
-  async sendWhatsapp(
-    data?: SendWhatsappDTO,
-    files?: Array<Express.Multer.File>,
-  ) {
+  async sendWhatsapp(data?: SendWhatsappDTO, files?) {
     try {
       const queryBuilder = this.personRepository
         .createQueryBuilder("voter")

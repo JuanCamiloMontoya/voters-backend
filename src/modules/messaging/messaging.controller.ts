@@ -51,7 +51,7 @@ export class MessagingController {
   })
   async sendWhatsapp(
     @Body() body: SendWhatsappDTO,
-    @UploadedFiles() files: Array<Express.Multer.File>,
+    @UploadedFiles() files,
   ) {
     console.log("BODY", body, "FILES", files);
     return await this.messagingService.sendWhatsapp(body, files);
